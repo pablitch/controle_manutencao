@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Controle de Manutenção</title>
+</head>
+<body>
+    <h1>Controle de Manutenção de Equipamentos</h1>
+
+    <form action="/adicionar" method="POST">
+        <label>Equipamento:</label><br>
+        <input type="text" name="equipamento" required><br><br>
+
+        <label>Setor:</label><br>
+        <input type="text" name="setor" required><br><br>
+
+        <label>Tipo de manutenção:</label><br>
+        <select name="tipo_manutencao" required>
+            <option value="Preventiva">Preventiva</option>
+            <option value="Corretiva">Corretiva</option>
+            <option value="Preditiva">Preditiva</option>
+        </select><br><br>
+
+        <label>Descrição:</label><br>
+        <textarea name="descricao" required></textarea><br><br>
+
+        <button type="submit">Salvar manutenção</button>
+    </form>
+
+    <hr>
+
+    <h2>Manutenções cadastradas</h2>
+
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>ID</th>
+            <th>Equipamento</th>
+            <th>Setor</th>
+            <th>Tipo</th>
+            <th>Descrição</th>
+            <th>Data</th>
+        </tr>
+
+        {% for m in manutencoes %}
+        <tr>
+            <td>{{ m.id }}</td>
+            <td>{{ m.equipamento }}</td>
+            <td>{{ m.setor }}</td>
+            <td>{{ m.tipo_manutencao }}</td>
+            <td>{{ m.descricao }}</td>
+            <td>{{ m.data_manutencao }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
