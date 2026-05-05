@@ -1,24 +1,30 @@
 from flask import Flask, render_template, request, redirect
 import pyodbc
+import os
 
 app = Flask(__name__)
 
 def conectar_banco():
     return pyodbc.connect(
         "DRIVER={ODBC Driver 18 for SQL Server};"
-        "SERVER=servidorcp2pablo.database.windows.net;"
-        "DATABASE=db-cp2-pablo-murilo;"
-        "UID=adm-cp2-pablo-murilo;"
-        "PWD=P@blo261628;"
+        f"SERVER={os.getenv('DB_SERVER')};"
+        f"DATABASE={os.getenv('DB_NAME')};"
+        f"UID={os.getenv('DB_USER')};"
+        f"PWD={os.getenv('DB_PASSWORD')};"
         "Encrypt=yes;"
         "TrustServerCertificate=no;"
+        "Connection Timeout=30;"
     )
 
 @app.route("/")
 def index():
     conn = conectar_banco()
     cursor = conn.cursor()
-    cursor.execute("SELECT id, equipamento, setor, tipo_manutencao, descricao, data_manutencao FROM manutencoes ORDER BY id DESC")
+    cursor.execute("""
+        SELECT id, equipamento, setor, tipo_manutencao, descricao, data_manutencao
+        FROM manutencoes
+        ORDER BY id DESC
+    """)
     manutencoes = cursor.fetchall()
     conn.close()
     return render_template("index.html", manutencoes=manutencoes)
@@ -32,7 +38,6 @@ def adicionar():
 
     conn = conectar_banco()
     cursor = conn.cursor()
-
     cursor.execute("""
         INSERT INTO manutencoes (equipamento, setor, tipo_manutencao, descricao)
         VALUES (?, ?, ?, ?)
