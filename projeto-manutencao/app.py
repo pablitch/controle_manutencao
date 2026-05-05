@@ -7,10 +7,10 @@ app = Flask(__name__)
 def conectar_banco():
     return pyodbc.connect(
         "DRIVER={ODBC Driver 18 for SQL Server};"
-        f"SERVER={os.getenv('DB_SERVER')};"
-        f"DATABASE={os.getenv('DB_NAME')};"
-        f"UID={os.getenv('DB_USER')};"
-        f"PWD={os.getenv('DB_PASSWORD')};"
+        f"SERVER={os.getenv('servidorcp2pablo.database.windows.net')};"
+        f"DATABASE={os.getenv('db-cp2-pablo-murilo')};"
+        f"UID={os.getenv('adm-cp2-pablo-murilo')};"
+        f"PWD={os.getenv('P2blo261628')};"
         "Encrypt=yes;"
         "TrustServerCertificate=no;"
         "Connection Timeout=30;"
